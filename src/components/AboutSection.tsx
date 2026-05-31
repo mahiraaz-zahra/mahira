@@ -66,7 +66,8 @@ export default function AboutSection() {
               className="space-y-4 text-rose-900/70 font-medium leading-relaxed"
             >
               <p>
-                Halo, aku <span className="text-pink-600 font-bold">Cut Mahira Az-Zahra</span>. Lahir pada 08 Januari 2010 dan saat ini sedang menempuh pendidikan dengan penuh semangat di <span className="text-pink-600 font-bold">MAN 1 Banda Aceh</span>, kelas 10.
+                Halo, aku <span className="text-pink-600 font-bold">Cut Mahira Az-Zahra 
+🎀</span>. Lahir pada 08 Januari 2010 dan saat ini sedang menempuh pendidikan dengan penuh semangat di <span className="text-pink-600 font-bold">MAN 1 Banda Aceh</span>, kelas 10.
               </p>
               <p>
                 Aku adalah pribadi yang aktif dan suka mencoba hal-hal baru. Jalan-jalan adalah hobiku karena membuatku bisa melihat tempat baru, menambah pengalaman, dan mendapatkan banyak inspirasi. Selain itu, aku juga sangat menyukai menari, karena melalui tarian aku bisa mengekspresikan diri, melatih kepercayaan diri, dan mengembangkan kreativitas.
