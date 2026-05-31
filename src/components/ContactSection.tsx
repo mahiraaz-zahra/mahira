@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, MapPin, Phone, Send, Loader2 } from 'lucide-react';
@@ -15,23 +17,24 @@ const contactSchema = z.object({
   message: z.string().trim().min(1, 'Pesan harus diisi').max(2000, 'Pesan terlalu panjang'),
 });
 
+// Memperbarui data kontak sesuai request Mahira
 const contactInfo = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'hello@developer.com',
-    href: 'mailto:hello@developer.com',
+    value: 'mahiraazzahra00@gmail.com',
+    href: 'mailto:mahiraazzahra00@gmail.com',
   },
   {
     icon: Phone,
     label: 'Telepon',
-    value: '+62 812 3456 7890',
-    href: 'tel:+6281234567890',
+    value: '+62 851-8417-7255',
+    href: 'tel:+6285184177255',
   },
   {
     icon: MapPin,
     label: 'Lokasi',
-    value: 'Jakarta, Indonesia',
+    value: 'Banda Aceh, Indonesia',
     href: '#',
   },
 ];
@@ -99,8 +102,10 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="py-20 md:py-32">
+    /* Mengubah background section utama menjadi pink-50/50 agar menyatu dengan section lainnya */
+    <section id="contact" className="py-20 md:py-32 bg-pink-50/50 dark:bg-zinc-950 transition-colors duration-300">
       <div className="container mx-auto px-4">
+        {/* Header Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -108,11 +113,11 @@ export default function ContactSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="text-primary font-medium mb-2 block">Kontak</span>
-          <h2 className="font-display text-3xl md:text-5xl font-bold mb-4">
+          <span className="text-pink-500 font-medium mb-2 block uppercase tracking-wider text-sm">Kontak</span>
+          <h2 className="font-display text-3xl md:text-5xl font-bold mb-4 text-zinc-900 dark:text-white">
             Hubungi Saya
           </h2>
-          <div className="w-20 h-1 bg-primary mx-auto rounded-full" />
+          <div className="w-20 h-1 bg-pink-500 mx-auto rounded-full" />
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
@@ -125,7 +130,7 @@ export default function ContactSection() {
             className="space-y-8"
           >
             <div>
-              <h3 className="font-display text-2xl font-bold mb-4">
+              <h3 className="font-display text-2xl font-bold mb-4 text-zinc-900 dark:text-white">
                 Mari Berkolaborasi!
               </h3>
               <p className="text-muted-foreground leading-relaxed">
@@ -135,6 +140,7 @@ export default function ContactSection() {
               </p>
             </div>
 
+            {/* List Info Kontak dengan warna hover pink */}
             <div className="space-y-4">
               {contactInfo.map((info, index) => (
                 <motion.a
@@ -144,14 +150,14 @@ export default function ContactSection() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="flex items-center gap-4 p-4 glass rounded-xl hover:shadow-card-hover transition-all group"
+                  className="flex items-center gap-4 p-4 bg-white/70 dark:bg-zinc-900/60 backdrop-blur-md border border-pink-200/30 rounded-xl hover:shadow-md transition-all group"
                 >
-                  <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                    <info.icon className="h-5 w-5 text-primary" />
+                  <div className="p-3 rounded-lg bg-pink-50 dark:bg-pink-950/40 text-pink-500 group-hover:bg-pink-100 transition-colors">
+                    <info.icon className="h-5 w-5" />
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">{info.label}</p>
-                    <p className="font-medium">{info.value}</p>
+                    <p className="font-medium text-zinc-800 dark:text-zinc-200">{info.value}</p>
                   </div>
                 </motion.a>
               ))}
@@ -165,10 +171,11 @@ export default function ContactSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <form onSubmit={handleSubmit} className="space-y-6 p-6 glass rounded-2xl shadow-card">
+            {/* Form Box - Ditambahkan kecocokan border pink tipis */}
+            <form onSubmit={handleSubmit} className="space-y-6 p-6 bg-white/70 dark:bg-zinc-900/60 backdrop-blur-md border border-pink-200/30 rounded-2xl shadow-md">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label htmlFor="name" className="text-sm font-medium">
+                  <label htmlFor="name" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
                     Nama
                   </label>
                   <Input
@@ -177,14 +184,14 @@ export default function ContactSection() {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Nama Anda"
-                    className={errors.name ? 'border-destructive' : ''}
+                    className={`focus-visible:ring-pink-500 ${errors.name ? 'border-destructive' : 'border-zinc-200 dark:border-zinc-800'}`}
                   />
                   {errors.name && (
                     <p className="text-xs text-destructive">{errors.name}</p>
                   )}
                 </div>
                 <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium">
+                  <label htmlFor="email" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
                     Email
                   </label>
                   <Input
@@ -194,7 +201,7 @@ export default function ContactSection() {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="email@example.com"
-                    className={errors.email ? 'border-destructive' : ''}
+                    className={`focus-visible:ring-pink-500 ${errors.email ? 'border-destructive' : 'border-zinc-200 dark:border-zinc-800'}`}
                   />
                   {errors.email && (
                     <p className="text-xs text-destructive">{errors.email}</p>
@@ -203,7 +210,7 @@ export default function ContactSection() {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="subject" className="text-sm font-medium">
+                <label htmlFor="subject" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
                   Subjek
                 </label>
                 <Input
@@ -212,7 +219,7 @@ export default function ContactSection() {
                   value={formData.subject}
                   onChange={handleChange}
                   placeholder="Subjek pesan"
-                  className={errors.subject ? 'border-destructive' : ''}
+                  className={`focus-visible:ring-pink-500 ${errors.subject ? 'border-destructive' : 'border-zinc-200 dark:border-zinc-800'}`}
                 />
                 {errors.subject && (
                   <p className="text-xs text-destructive">{errors.subject}</p>
@@ -220,7 +227,7 @@ export default function ContactSection() {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="message" className="text-sm font-medium">
+                <label htmlFor="message" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
                   Pesan
                 </label>
                 <Textarea
@@ -230,17 +237,18 @@ export default function ContactSection() {
                   onChange={handleChange}
                   placeholder="Tuliskan pesan Anda..."
                   rows={5}
-                  className={errors.message ? 'border-destructive' : ''}
+                  className={`focus-visible:ring-pink-500 ${errors.message ? 'border-destructive' : 'border-zinc-200 dark:border-zinc-800'}`}
                 />
                 {errors.message && (
                   <p className="text-xs text-destructive">{errors.message}</p>
                 )}
               </div>
 
+              {/* Tombol Kirim - Diubah penuh menjadi warna Pink */}
               <Button
                 type="submit"
                 size="lg"
-                className="w-full rounded-full"
+                className="w-full rounded-full bg-pink-500 hover:bg-pink-600 text-white transition-all duration-200 shadow-md hover:shadow-lg"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
