@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Github, Play, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ExternalLink, Github, Play, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 // --- 0. IMPORT ASSETS ---
@@ -28,10 +28,9 @@ const slideVariants = {
   }),
 };
 
-// 2. Sub-Komponen Carousel
+// 2. Sub-Komponen Carousel Mini (Bawaan Kode Kamu)
 const CardCarousel = ({ images }: { images: string[] }) => {
   const [[page, direction], setPage] = useState([0, 0]);
-
   const imageIndex = Math.abs(page % images.length);
 
   const paginate = (newDirection: number) => {
@@ -92,7 +91,35 @@ const CardCarousel = ({ images }: { images: string[] }) => {
   );
 };
 
-// 3. Data Projects - Color diganti variasi pink soft
+// Data Unggulan Khusus untuk Carousel Besar di Atas
+const featuredProjects = [
+  {
+    title: 'Learning Management System',
+    description: 'Platform pembelajaran online dengan video streaming, quiz interaktif, dan progress tracking terintegrasi untuk kenyamanan belajar siswa.',
+    tag: 'Featured Project',
+    image: JoinUsGif,
+    github: '#',
+    demo: '#',
+  },
+  {
+    title: 'E-Commerce Platform',
+    description: 'Platform e-commerce modern dengan fitur lengkap termasuk payment gateway, inventory management, dan analytics dashboard.',
+    tag: 'Trending App',
+    image: PetirImg,
+    github: '#',
+    demo: '#',
+  },
+  {
+    title: 'AI Content Generator',
+    description: 'Tool pintar untuk mempermudah pembuatan konten teks kreatif otomatis menggunakan integrasi kecerdasan buatan terdepan.',
+    tag: 'Artificial Intelligence',
+    image: WeatherImg,
+    github: '#',
+    demo: '#',
+  }
+];
+
+// 3. Data Projects Grid Kecil (Bawaan Kode Kamu)
 const projects = [
   {
     title: 'E-Commerce Platform',
@@ -143,10 +170,19 @@ const projects = [
 
 // 4. Komponen Utama
 export default function ProjectsSection() {
+  const [bigIndex, setBigIndex] = useState(0);
+
+  // Auto-play untuk Carousel Besar (Setiap 5 detik ganti gambar)
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setBigIndex((prev) => (prev === featuredProjects.length - 1 ? 0 : prev + 1));
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [bigIndex]);
+
   return (
-    /* Mengubah background utama section menjadi pink soft senada */
     <section id="projects" className="py-20 md:py-32 bg-pink-50/50 dark:bg-zinc-950 transition-colors duration-300">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 max-w-7xl">
         
         {/* Header Section */}
         <motion.div
@@ -163,8 +199,79 @@ export default function ProjectsSection() {
           <div className="w-20 h-1 bg-pink-500 mx-auto rounded-full" />
         </motion.div>
 
-        {/* Grid Projects */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+        {/* ================= CAROUSEL UTAMA YANG BESAR ================= */}
+        <div className="relative h-[400px] md:h-[460px] w-full overflow-hidden rounded-3xl bg-white/80 dark:bg-zinc-900/60 backdrop-blur-md border border-pink-200/40 shadow-xl group mb-16 flex flex-col md:flex-row">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={bigIndex}
+              initial={{ opacity: 0, scale: 1.01 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.99 }}
+              transition={{ duration: 0.5 }}
+              className="absolute inset-0 flex flex-col md:flex-row"
+            >
+              {/* Sisi Teks Deskripsi */}
+              <div className="flex-1 p-8 md:p-12 flex flex-col justify-center z-10 order-2 md:order-1">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100 dark:bg-pink-950/50 text-pink-600 dark:text-pink-400 text-xs font-semibold uppercase mb-4 w-fit">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  {featuredProjects[bigIndex].tag}
+                </span>
+                <h3 className="font-display text-2xl md:text-4xl font-bold text-zinc-900 dark:text-white mb-4">
+                  {featuredProjects[bigIndex].title}
+                </h3>
+                <p className="text-muted-foreground text-sm md:text-base leading-relaxed max-w-md mb-6">
+                  {featuredProjects[bigIndex].description}
+                </p>
+                <div className="flex gap-3">
+                  <Button size="sm" className="rounded-full bg-pink-500 hover:bg-pink-600 text-white px-5" asChild>
+                    <a href={featuredProjects[bigIndex].demo}>Live Preview</a>
+                  </Button>
+                  <Button variant="outline" size="sm" className="rounded-full border-pink-200 hover:bg-pink-50 text-zinc-700 dark:text-zinc-200" asChild>
+                    <a href={featuredProjects[bigIndex].github}>View Code</a>
+                  </Button>
+                </div>
+              </div>
+
+              {/* Sisi Preview Gambar */}
+              <div className="flex-1 relative h-44 md:h-full w-full order-1 md:order-2 bg-pink-950/5">
+                <img
+                  src={featuredProjects[bigIndex].image}
+                  alt={featuredProjects[bigIndex].title}
+                  className="w-full h-full object-cover select-none"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-white dark:from-zinc-900 via-transparent to-transparent" />
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Navigasi Panah Kiri Kanan */}
+          <button
+            onClick={() => setBigIndex((prev) => (prev === 0 ? featuredProjects.length - 1 : prev - 1))}
+            className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 text-pink-500 shadow hover:bg-pink-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 z-20"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            onClick={() => setBigIndex((prev) => (prev === featuredProjects.length - 1 ? 0 : prev + 1))}
+            className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 text-pink-500 shadow hover:bg-pink-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 z-20"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+
+          {/* Dots Indikator Garis Pink */}
+          <div className="absolute bottom-6 left-8 md:left-12 flex gap-1.5 z-20">
+            {featuredProjects.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setBigIndex(idx)}
+                className={`h-1.5 rounded-full transition-all duration-300 ${bigIndex === idx ? 'w-6 bg-pink-500' : 'w-2 bg-pink-200 dark:bg-zinc-700'}`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* ================= GRID PROJECTS KECIL (BAWAAN KODE KAMU) ================= */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project, index) => (
             <motion.div
               key={project.title}
@@ -174,10 +281,9 @@ export default function ProjectsSection() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="group"
             >
-              {/* Card - Ditambahkan border pink tipis estetik */}
               <div className="h-full p-6 bg-white/70 dark:bg-zinc-900/60 backdrop-blur-md border border-pink-200/30 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col">
                 
-                {/* Area Carousel */}
+                {/* Area Carousel Mini */}
                 <div className={`aspect-video rounded-xl mb-4 bg-gradient-to-br ${project.color}`}>
                   <CardCarousel images={project.image} />
                 </div>
@@ -198,7 +304,7 @@ export default function ProjectsSection() {
                     {project.description}
                   </p>
                   
-                  {/* Tags Badges - Hover Pink */}
+                  {/* Tags Badges */}
                   <div className="flex flex-wrap gap-2">
                     {project.tags.map((tag) => (
                       <span
@@ -211,7 +317,7 @@ export default function ProjectsSection() {
                   </div>
                 </div>
 
-                {/* Tombol Action - Disesuaikan ke tema Pink */}
+                {/* Tombol Action */}
                 <div className="flex gap-2 pt-5 mt-auto">
                   {project.github && (
                     <Button variant="outline" size="sm" className="rounded-full flex-1 border-pink-200 hover:bg-pink-50 hover:text-pink-600 dark:border-zinc-700 dark:hover:bg-zinc-800" asChild>
